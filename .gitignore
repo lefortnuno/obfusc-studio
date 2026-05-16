@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.venv/
+venv/
+.coverage
+htmlcov/
+.pytest_cache/
+*.log
+
+# Node
+node_modules/
+dist/
+.parcel-cache/
+
+# Java/Maven
+target/
+*.class
+
+# Vite
+.vite/
+
+# Django dev
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+!.env.example
+
+# Backups & generated outputs (user-local)
+Converter-obf-AUTO/
+Converter-obf-bak/
+Converter-unobf - bak/
+*-backup/
+*-BACKUP/
+
+# Temp
+*.tmp

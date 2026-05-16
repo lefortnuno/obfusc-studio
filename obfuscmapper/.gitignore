@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.venv/
+venv/
+backend/db.sqlite3
+backend/staticfiles/
+.coverage
+htmlcov/
+.pytest_cache/
+*.log
+
+# Node
+node_modules/
+frontend/dist/
+.parcel-cache/
+
+# Java/Maven
+parser/target/
+*.class
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Env
+.env
+!.env.example
+
+# OS
+Thumbs.db
+.DS_Store

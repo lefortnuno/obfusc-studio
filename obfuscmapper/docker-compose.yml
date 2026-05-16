@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: obfuscmapper
+      POSTGRES_PASSWORD: obfuscmapper
+      POSTGRES_DB: obfuscmapper
+    ports:
+      - "5433:5432"
+    volumes:
+      - obfuscmapper-pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U obfuscmapper"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "60", "1"]
+    ports:
+      - "6380:6379"
+    volumes:
+      - obfuscmapper-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  obfuscmapper-pg-data:
+  obfuscmapper-redis-data:
