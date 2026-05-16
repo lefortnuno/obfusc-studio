@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html
+		th:insert="~{layout/master-layout :: layout(${pageTitle}, ~{::section})}"
+		xmlns:th="http://www.thymeleaf.org"
+>
+<head></head>
+<body>
+<section class="card-body" th:fragment="content">
+	<h3 class="mb-4">Nouvelle Format à multi structure</h3>
+	<form autocomplete="off" id="com-structure-form">
+		<input th:name="${_csrf.parameterName}"
+			   th:value="${_csrf.token}"
+			   type="hidden"/>
+		<div class="row">
+			<div class="mb-3 col-4">
+				<label class="form-label" for="struc-name">Nom Structure</label>
+				<input
+						class="form-control"
+						id="struc-name"
+						onchange="checkempty('#struc-name')"
+						type="text"
+				/>
+				<div
+						class="form-text text-danger"
+						id="struc-name-help"
+						style="display: none"
+				>
+					We'll never share your email with anyone else.
+				</div>
+			</div>
+
+			<div class="mb-3 col-4">
+				<label class="form-label" for="lib-struc">Libelle</label>
+				<input
+						class="form-control"
+						id="lib-struc"
+						onchange="checkempty('#lib-struc')"
+						type="text"
+				/>
+				<div
+						class="form-text text-danger"
+						id="lib-struc-help"
+						style="display: none"
+				>
+					We'll never share your email with anyone else.
+				</div>
+			</div>
+			<div class="mb-3 col-4">
+				<!--<label class="form-label" for="struc-type">L'alignement</label>
+				<select class="form-select" id="struc-type" name="typestruc">
+					<option disabled selected value="">sélectionner l'alignement</option>
+					<option value="horizontal">horizontal</option>
+					<option value="vertical">vertical</option>
+				</select>
+				<div class="form-text text-danger"
+					 id="struc-type-help"
+					 style="display: none"
+				>
+					We'll never share your email with anyone else.
+				</div>-->
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table text-nowrap mb-0 align-middle">
+						<thead class="text-white fs-4">
+						<tr>
+							<th class="border-bottom-2">
+								<h6 class="fw-semibold mb-0">Choix structure</h6>
+							</th>
+							<th class="border-bottom-2">
+								<h6 class="fw-semibold mb-0"></h6>
+							</th>
+						</tr>
+						</thead>
+						<tbody id="field_tab"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="alert alert-danger" id="alert" role="alert" style="display: none;">
+			
+		</div>
+		<div
+				class="d-flex justify-content-between align-content-center m-2 mt-3"
+		>
+			<button class="btn btn-primary" id="add_com_btn">ajouter une sous-structure</button>
+			<button class="btn btn-primary" id="gene_com_xml_btn">générer la structure xml</button>
+
+
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<textarea class="form-control" cols="30" id="big-expression" name="" rows="10"></textarea>
+				<span class="text-danger fw-bolder fs-1 input-error" style="display: none"></span>
+			</div>
+		</div>
+
+		<div class="d-flex justify-content-between align-content-center m-2 mt-3">
+			<span></span>
+
+			<button class="btn btn-primary" id="btnsubmit">Soumettre</button>
+		</div>
+	</form>
+</section>
+</body>
+</html>

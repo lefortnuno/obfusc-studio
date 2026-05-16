@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html
+		xmlns:th="http://www.thymeleaf.org"
+		th:insert="~{layout/master-layout :: layout(${pageTitle}, ~{::section})}"
+>
+<head>
+	<!--    <title th:fragment="title" th:text="${pageTitle}">Home Page</title>-->
+</head>
+<body>
+<section th:fragment="content" class="card-body p-4">
+	<div class="d-flex w-100 justify-content-between ">
+		<h5 class="card-title fw-bolder text-primary" th:text="${pageTitle}">Recent Transactions</h5>
+		<form autocomplete="off" method="get" th:action="@{users}" class="d-flex gap-1 mb-2">
+			<input class="form-control" type="text" name="keyword" th:value="${keyword}">
+			<button type="submit" class="btn btn-info">
+				<i class="ti ti-search"></i>
+			</button><a th:href="@{/users/create}" type="submit" class="btn btn-primary">
+			<i class="ti ti-plus"></i>
+			</a>
+
+		</form>
+	</div>
+	<div th:if="${message != null}" class="alert alert-success mt-3" id="alert" role="alert" >
+		<span th:text="${message}"></span>
+	</div>
+	<div class="table-responsive">
+		<table class="table text-nowrap mb-0 align-middle">
+			<thead class="text-dark fs-4">
+			<tr>
+				<th class="border-bottom-2">
+					<h6 class="fw-semibold mb-0">Nom d'utilisateur</h6>
+				</th>
+				<th class="border-bottom-2">
+					<h6 class="fw-semibold mb-0">Prénom</h6>
+				</th>
+				<th class="border-bottom-2">
+					<h6 class="fw-semibold mb-0">Nom</h6>
+				</th>
+				<th class="border-bottom-2">
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="u:${listUsers}">
+				<td class="border-bottom-1">
+					<h6 class="fw-semibold mb-0" th:text="${u.username}">1</h6>
+				</td>
+				<td class="border-bottom-1">
+					<h6 class="fw-normal mb-0" th:text="${u.firstname}">Sunil Joshi</h6>
+				</td>
+				<td class="border-bottom-1">
+					<p class="mb-0 fw-normal" th:text="${u.lastname}">Elite Admin</p>
+				</td>
+				<td class="border-bottom-1">
+					<a th:href="@{/users/edit(id=${u.userID})}" class="btn btn-link m-1"><i class="ti ti-edit"></i></a>
+					<a th:if="${u.username != 'admin'}" class="btn btn-link m-1" data-bs-toggle="modal" th:data-bs-target="${'#exampleModal'+u.userID}"><i class="ti ti-trash"></i></a>
+					<div th:if="${u.username != 'admin'}" aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" tabindex="-1" th:id="${'exampleModal'+u.userID}">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel">Supprimer utilisateur</h1>
+									<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+								</div>
+								<div class="modal-body">
+									Veuillez vraiment supprimer l'utilisateur ?
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">annuler
+									</button>
+									<a class="btn btn-danger" th:href="@{/users/delete(id=${u.userID}, keyword=${keyword}, page=${currentPage})}" >supprimer</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+
+			</tbody>
+		</table>
+	</div>
+	<nav class="mt-3" aria-label="Pagination" th:if="${totalPages > 0}">
+		<ul class="pagination justify-content-center">
+			<li>
+				<a aria-label="First Page" class="btn ms-1 "
+				   th:classappend="${currentPage == 0} ? 'disabled':'btn-outline-info'"
+				   th:href="@{/complex-structures/sub(page=1,keyword=${keyword})}">
+					<i class="ti ti-chevrons-left"></i>
+				</a>
+			</li>
+			<li>
+				<a aria-label="Previous Page"
+				   class="btn ms-1 font-weight-bold"
+				   th:classappend="${currentPage == 0} ? 'disabled':'btn-outline-info'"
+				   th:href="@{/complex-structures/sub(page=${currentPage - 1},keyword=${keyword})}">Précédent</a>
+			</li>
+			<li class="btn ms-1 disabled" th:if="${currentPage - 2 > 1}">
+				<span class="page-link">...</span>
+			</li>
+			<li th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+				<a aria-label="Page [[${page}]]"
+				   class="btn ms-1"
+				   th:classappend="${page == currentPage+1} ? 'btn-info':'btn-outline-info'" th:href="@{/complex-structures/sub(page=${page-1},keyword=${keyword})}"
+				   th:text="${page}"></a>
+			</li>
+			<li class="btn ms-1 disabled" th:if="${currentPage + 2 < totalPages}">
+				<span class="page-link">...</span>
+			</li>
+			<li>
+				<a aria-label="Suivant Page"
+				   class="btn ms-1 font-weight-bold"
+				   th:classappend="${currentPage == totalPages-1} ? 'disabled':'btn-outline-info'" th:href="@{/complex-structures/sub(page=${currentPage + 1},keyword=${keyword})}">Suivant</a>
+			</li>
+			<li>
+				<a aria-label="Last Page"
+				   class="btn ms-1 "
+				   th:classappend="${currentPage == totalPages-1} ? 'disabled':'btn-outline-info'"
+				   th:href="@{/complex-structures/sub(page=${totalPages},keyword=${keyword})}">
+					<i class="ti ti-chevrons-right"></i>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</section>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+		th:insert="~{layout/master-layout :: layout(${pageTitle}, ~{::section})}"
+		xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+	<!--    <title th:fragment="title" th:text="${pageTitle}">Home Page</title>-->
+</head>
+<body>
+<section class="card-body" th:fragment="content">
+	<h5 class="card-title fw-semibold mb-3">Activer votre produit</h5>
+	<form autocomplete="off" method="post" th:action="@{/licence}">
+		<div class="form-floating form-floating-custom mb-3">
+			<input class="form-control __input" id="licence-key" name="licencekey" placeholder="CLÉ DE LICENCE" type="text">
+			<label for="licence-key">Clé de licence</label>
+		</div>
+		<div class="d-flex justify-content-center align-content-center">
+			<button class="btn btn-primary" type="submit">Soumettre</button>
+		</div>
+	</form>
+
+    <!-- Zone d'erreur -->
+	 <br/>
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <span th:text="${errorMessage}"></span>
+    </div>
+</section>
+</body>
+</html>

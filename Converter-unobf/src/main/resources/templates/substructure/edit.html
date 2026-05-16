@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html
+		th:insert="~{layout/master-layout :: layout(${pageTitle}, ~{::section})}"
+		xmlns:th="http://www.thymeleaf.org"
+>
+<head></head>
+<body>
+<section class="card-body" th:fragment="content">
+	<h3 class="mb-4">Format à multi structures</h3>
+	<h4 class="mb-4">Edite Structure </h4>
+	<form autocomplete="off" id="sub-structure-form" data-url="/complex-structures/sub/update/">
+		<input th:name="${_csrf.parameterName}"
+			   th:value="${_csrf.token}"
+			   type="hidden"/>
+		<input id="struck-id" th:value="${substructure.id}" type="hidden"/>
+		<div class="row">
+			<div class="mb-3 col-4">
+				<label class="form-label" for="struc-name">Nom Structure</label>
+				<input
+						class="form-control"
+						id="struc-name"
+						onchange="checkempty('#struc-name')"
+						th:value="${substructure.name}"
+						type="text"
+				/>
+				<div
+						class="form-text text-danger"
+						id="struc-name-help"
+						style="display: none"
+				>
+					We'll never share your email with anyone else.
+				</div>
+			</div>
+
+			<div class="mb-3 col-4">
+				<label class="form-label" for="lib-struc">Libelle</label>
+				<input
+						class="form-control"
+						id="lib-struc"
+						onchange="checkempty('#lib-struc')"
+						th:value="${substructure.libelle}"
+						type="text"
+				/>
+				<div
+						class="form-text text-danger"
+						id="lib-struc-help"
+						style="display: none"
+				>
+					We'll never share your email with anyone else.
+				</div>
+			</div>
+			<div class="mb-3 col-4">
+				<label class="form-label" for="struc-type">L'alignement</label>
+				<select class="form-select" id="struc-type" name="typestruc" onchange="checkempty('#struc-type')">
+					<option th:selected="${'horizontal' == substructure.type}" value="horizontal">horizontal</option>
+					<option th:selected="${'vertical' == substructure.type}" value="vertical">vertical</option>
+				</select>
+				<div class="form-text text-danger"
+					 id="struc-type-help"
+					 style="display: none"
+				>
+					We'll never share your email with anyone else.
+				</div>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table text-nowrap mb-0 align-middle">
+						<thead class="text-white fs-4">
+						<tr>
+							<th class="border-bottom-2">
+								<h6 class="fw-semibold mb-0">nom</h6>
+							</th>
+							<th class="border-bottom-2">
+								<h6 class="fw-semibold mb-0">type</h6>
+							</th>
+							<th class="border-bottom-2">
+								<h6 class="fw-semibold mb-0">expression</h6>
+							</th>
+							<th class="border-bottom-2">
+								<h6 class="fw-semibold mb-0"></h6>
+							</th>
+						</tr>
+						</thead>
+						<tbody id="field_tab">
+						<tr class="field-row" th:each="field : ${substructuredetail}">
+							<td class="border-bottom-1">
+								<input id="row-id" class="row-id" th:value="${field.id}" type="hidden"/>
+								<input class="form-control field-input" id="field" min="0" onkeyup="UpdateXmlListItems(this)" placeholder="nom du champ" th:value="${field.name}" type="text">
+								<span class="text-danger fw-bolder fs-1 input-error" style="display: none"></span>
+							</td>
+							<td class="border-bottom-1">
+								<select class="form-select typefields" id="type01" name="typefields" onchange="checkType(this)">
+									<option th:selected="${'alfa' == field.type}" value="alfa">text</option>
+									<option th:selected="${'number' == field.type}" value="number">number</option>
+								</select>
+							</td>
+							<td class="border-bottom-1">
+								<input class="form-control expression" id="expression" onchange="checkXML(this)" placeholder="expression <nom>@nom<\\nom>" th:value="${field.expression}" type="text">
+								<span class="text-danger fw-bolder fs-1 input-error" style="display: none"></span>
+							</td>
+							<td class="border-bottom-1">
+								<a class="btn btn-link m-1" onclick="removeItem(this)"><i class="ti ti-trash"></i></a>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="alert alert-danger" id="alert" role="alert" style="display: none;">
+			
+		</div>
+		<div
+				class="d-flex justify-content-between align-content-center m-2 mt-3"
+		>
+			<button class="btn btn-primary" id="add_sub_btn">ajouter un champ</button>
+			<button class="btn btn-primary" id="gene_xml_btn">générer la structure xml</button>
+
+
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<textarea class="form-control" cols="30" id="big-expression" name="" rows="10" th:text="${substructure.expression}"></textarea>
+				<span class="text-danger fw-bolder fs-1 input-error" style="display: none"></span>
+			</div>
+		</div>
+
+		<div class="d-flex justify-content-between align-content-center m-2 mt-3">
+			<span></span>
+
+			<button class="btn btn-primary" id="btnsubmit">Soumettre</button>
+		</div>
+	</form>
+</section>
+</body>
+</html>

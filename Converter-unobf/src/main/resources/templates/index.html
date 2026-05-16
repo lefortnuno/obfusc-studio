@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html
+		th:insert="~{layout/master-layout :: layout(${pageTitle}, ~{::section})}"
+		xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+	<!--    <title th:fragment="title" th:text="${pageTitle}">Home Page</title>-->
+</head>
+<body>
+<section class="card-body" th:fragment="content">
+	<h5 class="card-title fw-semibold mb-3" >Conversion</h5>
+	<form autocomplete="off" enctype="multipart/form-data" id="index-form" method="post" th:action="@{/convert}">
+		<div class="row">
+			<div class="col-4">
+				<label class="form-label" for="structureList">
+					Fichier d'entrée
+				</label>
+				<input class="form-control" id="file-in" name="file-in" placeholder="" required type="file">
+				<label class="form-label mt-2" for="structureList">
+					Structure
+				</label>
+				<select class="form-select" id="structureList" name="structureList" required>
+					<option disabled selected value="">choisir la structure</option>
+					<optgroup label="Structure simple">
+						<option th:each="s:${structureList}" th:text="${s.libelle}" th:value="${s.id}"></option>
+					</optgroup>
+					<optgroup label="Structure complexe" id="compl-stru">
+						<option th:each="s:${complexStructureList}" th:text="${s.libelle}" th:value="${s.id}"></option>
+					</optgroup>
+				</select>
+			</div>
+			<div class="col-4">
+				<label class="form-label" for="struc-type-in">
+					Type du format d'entrée
+				</label>
+				<select class="form-select" id="struc-type-in" name="struc-type-in" required>
+					<option disabled selected value="">choisir le type d'entrée</option>
+					<option value="xml">XML</option>
+					<option value="txt">Plat</option>
+					<option value="csv">CSV</option>
+					<option value="excel-simp">Excel simple</option>
+					<option value="excel">Excel</option>
+				</select>
+				<div id="meta-in" style="display:none;">
+					<label class="form-label mt-2" for="meta-in-in" id="meta-lab-in">
+						Séparateur
+					</label>
+					<input class="form-control" id="meta-in-in" name="meta-in-in" placeholder="" type="text">
+
+				</div>
+			</div>
+			<div class="col-4">
+				<label class="form-label" for="struc-type-out">
+					Type du format de sortie
+				</label>
+				<select class="form-select" id="struc-type-out" name="struc-type-out" required>
+					<option disabled selected value="">choisir le type de sortie</option>
+					<!-- <option value="xml">XML</option>
+					<option value="txt">Plat</option>
+					<option value="csv">CSV</option> -->
+				</select>
+				<div id="meta-out" style="display:none;">
+					<label class="form-label mt-2" for="meta-in-out" id="meta-lab-out">
+						Séparateur
+					</label>
+					<input class="form-control" id="meta-in-out" name="meta-in-out" placeholder="" type="text">
+				</div>
+
+			</div>
+		</div>
+		<div class="row mb-2">
+			<div class="col-4">
+				<label class=" mt-4" for="" id="">
+					Paramètres avancés
+				</label>
+			</div>
+			<div class="col-4">
+				<div class="mt-4" id="meta-csv" style="display:none;">
+					<input class="form-check-input" id="exampleCheck2" name="meta-csv" type="checkbox">
+					<label class="form-check-label" for="exampleCheck2" id="meta-lab-csv">Avec entête (csv)</label>
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="mt-4" id="meta-plat" style="display:none;">
+					<input class="form-check-input" id="exampleCheck1" name="meta-plat" type="checkbox">
+					<label class="form-check-label" for="exampleCheck1" id="meta-lab-plat">Avec decimal (plat)</label>
+				</div>
+			</div>
+		</div>
+		<button class="btn btn-primary mt-2" id="btnsubmit" type="submit" onclick="setPost()"><i class="ti ti-download"></i> Convertir
+		</button>
+		<button class="btn btn-primary mt-2" id="btn_submit" type="submit" onclick="setGet()"><i class="ti ti-terminal"></i> Générer la commande
+		</button>
+		
+		<div th:if="${command!=''}" class="my-2 badge text-bg-dark text-wrap text-start lh-base">
+			<span th:text="${command}"></span>
+		</div>
+	</form>
+</section>
+</body>
+</html>

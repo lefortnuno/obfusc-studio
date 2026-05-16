@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html
+		xmlns:th="http://www.thymeleaf.org"
+		th:insert="~{layout/master-layout :: layout(${pageTitle}, ~{::section})}"
+>
+<head>
+	<!--    <title th:fragment="title" th:text="${pageTitle}">Home Page</title>-->
+</head>
+<body>
+<section th:fragment="content" class="card-body ">
+	<form autocomplete="off" class="row w-50 m-auto" th:action="@{/users/store}" th:object="${appUser}" method="post">
+		<div class="mb-3 ">
+			<label for="firstname" class="form-label">Prénom</label>
+			<input type="text" class="form-control" id="firstname" name="firstname" th:value="${appUser.firstname}">
+			<span class="text-danger" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"></span>
+		</div>
+		<div class="mb-3 ">
+			<label for="lastname" class="form-label">Nom</label>
+			<input type="text" class="form-control" id="lastname" name="lastname" th:value="${appUser.lastname}">
+			<span class="text-danger" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></span>
+		</div>
+		<div class="mb-3 ">
+			<label for="username" class="form-label">Nom d'utilisateur</label>
+			<input type="text" class="form-control" id="username" name="username" th:value="${appUser.username}">
+			<span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+		</div>
+		<div class="mb-3 ">
+			<label for="password" class="form-label">Mot de passe</label>
+			<input type="password" class="form-control" id="password" name="password" th:value="${appUser.password}">
+			<span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+		</div>
+		<div class="mb-3 ">
+			<label for="confpassword" class="form-label">Confirmer le mot de passe</label>
+			<input type="password" class="form-control" id="confpassword" name="confpassword">
+			<!--<span class="text-danger" th:if="${#fields.hasErrors('confpassword')}" th:errors="*{confpassword}"></span>-->
+		</div>
+		<div>
+			<button type="submit" class="btn btn-primary">Soumettre</button>
+		</div>
+		<div th:if="${exception != null}" class="alert alert-danger mt-3" id="alert" role="alert">
+			<pre th:text="${exception}"></pre>
+		</div>
+	</form>
+</section>
+</body>
+</html>
